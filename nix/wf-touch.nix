@@ -7,7 +7,6 @@
   cmake,
   ninja,
   glm,
-  doctest,
 }:
 stdenv.mkDerivation {
   pname = "wf-touch";
@@ -20,10 +19,14 @@ stdenv.mkDerivation {
   };
 
   nativeBuildInputs = [meson pkg-config cmake ninja];
-  buildInputs = [doctest];
+  buildInputs = [ ];
   propagatedBuildInputs = [glm];
 
   mesonBuildType = "release";
+
+  mesonFlags = [
+    "-Dtests=disabled"
+  ];
 
   patches = [
     ./wf-touch.patch
