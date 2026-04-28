@@ -22,7 +22,7 @@ Visualizer::Visualizer() {
 
     const unsigned char* data = cairo_image_surface_get_data(this->cairoSurface);
 
-    this->texture->allocate();
+    this->texture->allocate(Vector2D{2 * TOUCH_POINT_RADIUS, 2 * TOUCH_POINT_RADIUS});
     glBindTexture(GL_TEXTURE_2D, this->texture->m_texID);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -56,7 +56,7 @@ void Visualizer::onRender() {
 
     for (auto& finger : this->finger_positions) {
         CBox dmg = boxAroundCenter(finger.second.curr, TOUCH_POINT_RADIUS);
-        g_pHyprOpenGL->renderTexture(this->texture, dmg, {.a = 1.f, .round = 0, .discardActive = true});
+        Render::GL::g_pHyprOpenGL->renderTexture(this->texture, dmg, {.a = 1.f, .round = 0, .discardActive = true});
     }
 }
 
