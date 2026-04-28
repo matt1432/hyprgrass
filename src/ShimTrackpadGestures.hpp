@@ -4,6 +4,7 @@
 
 #include <hyprland/src/config/ConfigManager.hpp>
 #include <hyprutils/string/ConstVarList.hpp>
+#include <hyprutils/string/VarList.hpp>
 
 #define private public
 #include <hyprland/src/managers/input/trackpad/TrackpadGestures.hpp>
@@ -15,7 +16,7 @@ struct GestureConfig {
     size_t fingers;
 };
 
-std::expected<GestureConfig, std::string> parseGesturePattern(CConstVarList& vars);
+std::expected<GestureConfig, std::string> parseGesturePattern(Hyprutils::String::CConstVarList& vars);
 GestureDirection toHyprgrassDirection(eTrackpadGestureDirection dir);
 
 struct ShimTrackpadGestures {

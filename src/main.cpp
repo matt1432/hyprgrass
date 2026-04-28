@@ -3,6 +3,7 @@
 #include "TouchVisualizer.hpp"
 #include "globals.hpp"
 #include "version.hpp"
+#include <any>
 #include <expected>
 #include <stdexcept>
 
@@ -62,7 +63,7 @@ static Hyprlang::CParseResult hyprgrassGestureKeyword(const char* LHS, const cha
     if (g_unloading)
         return result;
 
-    CConstVarList data(RHS);
+    Hyprutils::String::CConstVarList data(RHS);
 
     auto maybePattern = parseGesturePattern(data);
     if (!maybePattern) {
@@ -91,17 +92,17 @@ static Hyprlang::CParseResult hyprgrassGestureKeyword(const char* LHS, const cha
     while (true) {
 
         if (data[startDataIdx].starts_with("mod:")) {
-            modMask = g_pKeybindManager->stringToModMask(std::string{data[startDataIdx].substr(4)});
+            modMask = g_pKeybindManager->stringToModMask(std::string(data[startDataIdx].substr(4)));
             startDataIdx++;
             continue;
         } else if (data[startDataIdx].starts_with("scale:")) {
             try {
-                deltaScale = std::clamp(std::stof(std::string{data[startDataIdx].substr(6)}), 0.1F, 10.F);
+                deltaScale = std::clamp(std::stof(std::string(data[startDataIdx].substr(6))), 0.1F, 10.F);
                 startDataIdx++;
                 continue;
             } catch (...) {
                 result.setError(
-                    std::format("Invalid delta scale: {}", std::string{data[startDataIdx].substr(6)}).c_str()
+                    std::format("Invalid delta scale: {}", std::string(data[startDataIdx].substr(6))).c_str()
                 );
                 return result;
             }
@@ -116,9 +117,7 @@ static Hyprlang::CParseResult hyprgrassGestureKeyword(const char* LHS, const cha
 
     if (data[startDataIdx] == "dispatcher")
         resultFromGesture = handler->addGesture(
-            makeUnique<CDispatcherTrackpadGesture>(
-                std::string{data[startDataIdx + 1]}, data.join(",", startDataIdx + 2)
-            ),
+            makeUnique<CDispatcherTrackpadGesture>(std::string(data[startDataIdx + 1]), data.join(",", startDataIdx + 2)),
             pattern.fingers, pattern.direction, modMask, deltaScale, disableInhibit
         );
     else if (data[startDataIdx] == "workspace")
@@ -140,7 +139,7 @@ static Hyprlang::CParseResult hyprgrassGestureKeyword(const char* LHS, const cha
         );
     else if (data[startDataIdx] == "special")
         resultFromGesture = handler->addGesture(
-            makeUnique<CSpecialWorkspaceGesture>(std::string{data[startDataIdx + 1]}), pattern.fingers,
+            makeUnique<CSpecialWorkspaceGesture>(std::string(data[startDataIdx + 1])), pattern.fingers,
             pattern.direction, modMask, deltaScale, disableInhibit
         );
     else if (data[startDataIdx] == "close")
@@ -149,12 +148,12 @@ static Hyprlang::CParseResult hyprgrassGestureKeyword(const char* LHS, const cha
         );
     else if (data[startDataIdx] == "float")
         resultFromGesture = handler->addGesture(
-            makeUnique<CFloatTrackpadGesture>(std::string{data[startDataIdx + 1]}), pattern.fingers, pattern.direction,
+            makeUnique<CFloatTrackpadGesture>(std::string(data[startDataIdx + 1])), pattern.fingers, pattern.direction,
             modMask, deltaScale, disableInhibit
         );
     else if (data[startDataIdx] == "fullscreen")
         resultFromGesture = handler->addGesture(
-            makeUnique<CFullscreenTrackpadGesture>(std::string{data[startDataIdx + 1]}), pattern.fingers,
+            makeUnique<CFullscreenTrackpadGesture>(std::string(data[startDataIdx + 1])), pattern.fingers,
             pattern.direction, modMask, deltaScale, disableInhibit
         );
     else if (data[startDataIdx] == "unset")
@@ -247,7 +246,7 @@ SDispatchResult listInternalBinds(std::string) {
 
 Hyprlang::CParseResult hyrgrassBindKeyword(const char* K, const char* V) {
     std::string v = V;
-    auto vars     = CVarList(v, 4);
+    auto vars     = Hyprutils::String::CVarList(v, 4);
     Hyprlang::CParseResult result;
     struct {
         bool mouse;

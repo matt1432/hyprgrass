@@ -61,7 +61,7 @@ int handleLongPressTimer(void* data) {
     return 0;
 }
 
-std::string commaSeparatedCssGaps(CCssGapData data) {
+std::string commaSeparatedCssGaps(Config::CCssGapData data) {
     return std::to_string(data.m_top) + "," + std::to_string(data.m_right) + "," + std::to_string(data.m_bottom) + "," +
            std::to_string(data.m_left);
 }
@@ -202,13 +202,13 @@ bool GestureManager::handleDragGesture(const DragGestureEvent& gev) {
                         };
                         g_pKeybindManager->resizeWithBorder(e);
 
-                        auto* PGAPSIN            = static_cast<CCssGapData*>(PGAPSINDATA.ptr());
+                        auto* PGAPSIN            = static_cast<Config::CCssGapData*>(PGAPSINDATA.ptr());
                         this->resizeOnBorderInfo = {
                             .active      = true,
                             .old_gaps_in = *PGAPSIN,
                         };
 
-                        CCssGapData newGapsIn = *PGAPSIN;
+                        Config::CCssGapData newGapsIn = *PGAPSIN;
                         newGapsIn.m_top += RESIZE_BORDER_GAP_INCREMENT;
                         newGapsIn.m_right += RESIZE_BORDER_GAP_INCREMENT;
                         newGapsIn.m_bottom += RESIZE_BORDER_GAP_INCREMENT;

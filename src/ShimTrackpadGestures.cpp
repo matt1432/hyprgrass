@@ -37,7 +37,7 @@ bool ShimTrackpadGestures::isPinch(eTrackpadGestureDirection dir) {
     }
 }
 
-std::expected<GestureConfig, std::string> parseGesturePattern(CConstVarList& vars) {
+std::expected<GestureConfig, std::string> parseGesturePattern(Hyprutils::String::CConstVarList& vars) {
     DragGestureType type;
     size_t fingersOrOrigin              = 0;
     eTrackpadGestureDirection direction = TRACKPAD_GESTURE_DIR_NONE;
