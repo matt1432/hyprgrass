@@ -21,7 +21,7 @@ class Visualizer {
     void onTouchMotion(ITouch::SMotionEvent);
 
   private:
-    SP<ITexture> texture = makeShared<Render::GL::CGLTexture>();
+    SP<Render::ITexture> texture = makeShared<Render::GL::CGLTexture>();
     cairo_surface_t* cairoSurface;
     bool tempDamaged             = false;
     const int TOUCH_POINT_RADIUS = 30;

@@ -1,5 +1,6 @@
 #include "gestures/DragGesture.hpp"
 #include "src/managers/input/trackpad/GestureTypes.hpp"
+#include <any>
 #include <string>
 
 #include <hyprland/src/config/ConfigManager.hpp>
