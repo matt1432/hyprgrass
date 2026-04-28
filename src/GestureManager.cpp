@@ -119,7 +119,7 @@ bool GestureManager::handleDragGesture(const DragGestureEvent& gev) {
     static auto PBORDERGRABEXTEND =
         (Hyprlang::INT* const*)HyprlandAPI::getConfigValue(PHANDLE, "general:extend_border_grab_area")
             ->getDataStaticPtr();
-    static auto PGAPSINDATA = CConfigValue<Hyprlang::CUSTOMTYPE>("general:gaps_in");
+    static auto PGAPSINDATA = CConfigValue<Config::IComplexConfigValue>("general:gaps_in");
 
     Log::logger->log(Log::DEBUG, "[hyprgrass] Drag gesture begin: {}", gev.to_string());
 
@@ -202,7 +202,7 @@ bool GestureManager::handleDragGesture(const DragGestureEvent& gev) {
                         };
                         g_pKeybindManager->resizeWithBorder(e);
 
-                        auto* PGAPSIN            = (CCssGapData*)(PGAPSINDATA.ptr())->getData();
+                        auto* PGAPSIN            = static_cast<CCssGapData*>(PGAPSINDATA.ptr());
                         this->resizeOnBorderInfo = {
                             .active      = true,
                             .old_gaps_in = *PGAPSIN,

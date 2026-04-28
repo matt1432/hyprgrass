@@ -4,7 +4,7 @@
 #include "VecSet.hpp"
 
 #define private public
-#include <hyprland/src/config/ConfigDataValues.hpp>
+#include <hyprland/src/config/ConfigValue.hpp>
 #include <hyprland/src/devices/ITouch.hpp>
 #include <hyprland/src/managers/KeybindManager.hpp>
 #include <hyprland/src/managers/input/trackpad/TrackpadGestures.hpp>
