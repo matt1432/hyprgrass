@@ -5,8 +5,10 @@
 #define private public
 #include <hyprland/src/Compositor.hpp>
 #include <hyprland/src/config/ConfigManager.hpp>
+#include <hyprland/src/config/legacy/ConfigManager.hpp>
 #include <hyprland/src/config/ConfigValue.hpp>
 #include <hyprland/src/desktop/state/FocusState.hpp>
+#include <hyprland/src/helpers/Monitor.hpp>
 #include <hyprland/src/managers/SeatManager.hpp>
 #include <hyprland/src/managers/input/InputManager.hpp>
 #include <hyprland/src/managers/input/UnifiedWorkspaceSwipeGesture.hpp>
@@ -213,7 +215,7 @@ bool GestureManager::handleDragGesture(const DragGestureEvent& gev) {
                         newGapsIn.m_right += RESIZE_BORDER_GAP_INCREMENT;
                         newGapsIn.m_bottom += RESIZE_BORDER_GAP_INCREMENT;
                         newGapsIn.m_left += RESIZE_BORDER_GAP_INCREMENT;
-                        g_pConfigManager->parseKeyword("general:gaps_in", commaSeparatedCssGaps(newGapsIn));
+                        Config::Legacy::mgr()->parseKeyword("general:gaps_in", commaSeparatedCssGaps(newGapsIn));
                         return true;
                     }
                 }
@@ -381,7 +383,7 @@ void GestureManager::handleDragGestureEnd(const DragGestureEvent& gev) {
         case DragGestureType::LONG_PRESS:
             if (this->resizeOnBorderInfo.active) {
                 g_pKeybindManager->changeMouseBindMode(eMouseBindMode::MBIND_INVALID);
-                g_pConfigManager->parseKeyword(
+                Config::Legacy::mgr()->parseKeyword(
                     "general:gaps_in", commaSeparatedCssGaps(this->resizeOnBorderInfo.old_gaps_in)
                 );
                 this->resizeOnBorderInfo = {};
@@ -586,9 +588,9 @@ bool GestureManager::onTouchDown(ITouch::SDownEvent ev) {
 
     const auto& monitorPos  = this->m_lastTouchedMonitor->m_position;
     const auto& monitorSize = this->m_lastTouchedMonitor->m_size;
-    this->m_monitorArea     = {monitorPos.x, monitorPos.y, monitorSize.x, monitorSize.y};
+    this->m_monitorArea     = SMonitorArea{monitorPos.x, monitorPos.y, monitorSize.x, monitorSize.y};
 
-    g_pCompositor->warpCursorTo({
+    g_pCompositor->warpCursorTo(Vector2D{
         monitorPos.x + ev.pos.x * monitorSize.x,
         monitorPos.y + ev.pos.y * monitorSize.y,
     });
