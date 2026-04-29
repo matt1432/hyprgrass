@@ -33,7 +33,7 @@ meson
 ninja
 
 # extra dependencies for hyprgrass-pulse
-libpulseaudio
+libpulseaudio # Note: Arch Linux users should use 'libpulse'
 ```
 
 ### Install via hyprpm
