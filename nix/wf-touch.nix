@@ -19,11 +19,12 @@ stdenv.mkDerivation {
   };
 
   nativeBuildInputs = [meson pkg-config cmake ninja];
-  buildInputs = [ ];
+  buildInputs = [];
   propagatedBuildInputs = [glm];
 
   mesonBuildType = "release";
 
+  # TODO: doctest is currently broken: https://github.com/NixOS/nixpkgs/issues/514722
   mesonFlags = [
     "-Dtests=disabled"
   ];

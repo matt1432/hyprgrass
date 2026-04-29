@@ -1,5 +1,7 @@
 doctest = dependency('doctest', required: get_option('tests'))
 if doctest.found()
+  # HACK: workaround bad lib flags in nixpkgs doctest:
+  # https://github.com/NixOS/nixpkgs/issues/514722
   doctest_compile = doctest.partial_dependency(
     compile_args: true,
     includes: true,
