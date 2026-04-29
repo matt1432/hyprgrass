@@ -3,8 +3,10 @@
 #include "ShimTrackpadGestures.hpp"
 #include "VecSet.hpp"
 
+#include <hyprland/src/config/shared/complex/ComplexDataTypes.hpp>
+
 #define private public
-#include <hyprland/src/config/ConfigDataValues.hpp>
+#include <hyprland/src/config/ConfigValue.hpp>
 #include <hyprland/src/devices/ITouch.hpp>
 #include <hyprland/src/managers/KeybindManager.hpp>
 #include <hyprland/src/managers/input/trackpad/TrackpadGestures.hpp>
@@ -55,7 +57,7 @@ class GestureManager : public IGestureManager {
     wl_event_source* long_press_timer;
     struct {
         bool active = false;
-        CCssGapData old_gaps_in;
+        Config::CCssGapData old_gaps_in;
     } resizeOnBorderInfo;
     bool workspaceSwipeActive                = false;
     CTrackpadGestures* activeTrackpadGesture = nullptr;
